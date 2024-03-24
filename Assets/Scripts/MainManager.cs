@@ -11,6 +11,7 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text BestScoreText;
     public GameObject GameOverText;
     
     private bool m_Started = false;
@@ -68,6 +69,20 @@ public class MainManager : MonoBehaviour
     {
         m_Points += point;
         ScoreText.text = $"Player: {playerName} Score : {m_Points}";
+        PlayerDataHandler.Instance.score = m_Points;
+        if (m_Points > ScoreDataHandler.Instance.GetBestScore())
+        {
+            BestScoreText.text = $"Best Player: {playerName} Score : {m_Points}";
+            ScoreDataHandler.Instance.SaveBest(playerName, m_Points);
+        } else
+        {
+            BestScoreText.text = $"Best Player: {ScoreDataHandler.Instance.GetBestPlayer()} Score : {ScoreDataHandler.Instance.GetBestScore()}";
+        }
+
+
+
+        
+
     }
 
     public void GameOver()
